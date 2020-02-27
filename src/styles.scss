@@ -1,1 +1,44 @@
-/* You can add global styles to this file, and also import other style files */
+@use 'sass:color';
+@use "vars" as *;
+@use "grid";
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  overflow-y: scroll;
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+
+// Shared styles
+.highlighter__selection {
+  &--green {
+    background-color: $green;
+    &:hover {
+      background-color: color.scale($green, $lightness: -10%);
+    }
+  }
+
+  &--red {
+    background-color: $red;
+    &:hover {
+      background-color: color.scale($red, $lightness: -10%);
+    }
+  }
+
+  &--yellow {
+    background-color: $yellow;
+    &:hover {
+      background-color: color.scale($yellow, $lightness: -10%);
+    }
+  }
+}

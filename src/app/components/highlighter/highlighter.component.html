@@ -1,0 +1,8 @@
+<ng-container *ngIf="text">
+  <ng-container *ngFor="let item of content">
+    <ng-container *ngIf="!item['id']; else selectionNode">{{ item }}</ng-container>
+    <ng-template #selectionNode>
+      <span ngClass="highlighter__selection--{{ item['variant'] }}">{{ item['value'] }}</span>
+    </ng-template>
+  </ng-container>
+</ng-container>

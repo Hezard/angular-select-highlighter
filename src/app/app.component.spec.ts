@@ -1,31 +1,107 @@
-import { TestBed, async } from '@angular/core/testing';
+import { TestBed, async, ComponentFixture } from '@angular/core/testing';
+import { StoreModule } from '@ngrx/store';
+import { By } from '@angular/platform-browser';
+
 import { AppComponent } from './app.component';
+import { appReducer } from './store';
+import { AppMaterialModule } from './app-material.module';
+import { HighlighterFilterComponent, HighlighterComponent } from './components';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { defaultText } from './constants';
+import { findTextNode, createSelection } from 'src/test/test.utils';
 
 describe('AppComponent', () => {
+  let component: AppComponent;
+  let fixture: ComponentFixture<AppComponent>;
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        AppComponent
-      ],
+      imports: [BrowserAnimationsModule, AppMaterialModule, StoreModule.forRoot({ root: appReducer })],
+      declarations: [AppComponent, HighlighterComponent, HighlighterFilterComponent]
     }).compileComponents();
   }));
 
+  beforeEach(() => {
+    fixture = TestBed.createComponent(AppComponent);
+    component = fixture.componentInstance;
+  });
+
   it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
+    expect(component).toBeTruthy();
   });
 
-  it(`should have as title 'angular-select-highlighter'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('angular-select-highlighter');
-  });
-
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
+  it('should update color', () => {
     fixture.detectChanges();
-    const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('.content span').textContent).toContain('angular-select-highlighter app is running!');
+    const spyFn = spyOn(component, 'onHighlightColorChange');
+    const btnGroup = fixture.debugElement.query(By.css('[aria-label="Highlight Color"]'));
+    const btn = btnGroup.query(By.css('button'));
+
+    expect(btn.nativeElement.textContent).toBe('red');
+
+    btn.nativeElement.dispatchEvent(new Event('click'));
+    fixture.detectChanges();
+
+    expect(spyFn).toHaveBeenCalledWith(
+      jasmine.objectContaining({
+        value: 'red'
+      })
+    );
+  });
+
+  it('should update text', () => {
+    fixture.detectChanges();
+    const spyFn = spyOn(component, 'onTextChange');
+    const textarea = fixture.debugElement.query(By.css('textarea'));
+
+    expect(textarea.nativeElement.value).toBe(defaultText);
+
+    textarea.nativeElement.value = 'Dummy Text';
+    textarea.nativeElement.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+
+    expect(spyFn).toHaveBeenCalledWith(
+      jasmine.objectContaining({
+        target: jasmine.objectContaining({
+          value: 'Dummy Text'
+        })
+      })
+    );
+  });
+
+  it('should update filter', () => {
+    fixture.detectChanges();
+    const spyFn = spyOn(component, 'onFilterColorChange');
+    const btnGroup = fixture.debugElement.query(By.css('[aria-label="Filter Color"]'));
+    const btn = btnGroup.query(By.css('button'));
+
+    expect(btn.nativeElement.textContent).toBe('red');
+
+    btn.nativeElement.dispatchEvent(new Event('click'));
+    fixture.detectChanges();
+
+    expect(spyFn).toHaveBeenCalledWith(
+      jasmine.objectContaining({
+        value: ['red']
+      })
+    );
+  });
+
+  it('should make text selection', () => {
+    fixture.detectChanges();
+    const highlighter = fixture.debugElement.query(By.css('app-highlighter'));
+    const btnGroup = fixture.debugElement.query(By.css('[aria-label="Highlight Color"]'));
+    const btn = btnGroup.query(By.css('button'));
+
+    btn.nativeElement.dispatchEvent(new Event('click'));
+    fixture.detectChanges();
+
+    const textNode = findTextNode(highlighter.nativeElement, defaultText);
+    const result = createSelection(textNode, 12, 35);
+
+    highlighter.nativeElement.dispatchEvent(new MouseEvent('mouseup'));
+
+    fixture.detectChanges();
+
+    expect(highlighter.query(By.css('span')).nativeElement.textContent).toBe(result);
   });
 });
