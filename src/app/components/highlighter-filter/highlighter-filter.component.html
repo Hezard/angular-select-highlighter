@@ -1,4 +1,4 @@
-<ng-container *ngFor="let item of data">
+<ng-container *ngFor="let item of data; trackBy: trackByFn">
   <div ngClass="highlighter__selection highlighter__selection--{{ item.variant }}">
     {{ item.value }}
   </div>

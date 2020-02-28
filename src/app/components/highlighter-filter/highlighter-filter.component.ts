@@ -9,4 +9,8 @@ import { SelectionItem } from 'src/app/models';
 })
 export class HighlighterFilterComponent {
   @Input() data: SelectionItem[];
+
+  trackByFn(_, item) {
+    return item.id;
+  }
 }

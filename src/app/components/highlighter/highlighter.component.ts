@@ -72,4 +72,8 @@ export class HighlighterComponent implements OnChanges {
     this.selectionText.emit(collection);
     selection.empty();
   }
+
+  trackByFn(_, item) {
+    return item.id;
+  }
 }

@@ -1,5 +1,5 @@
 <ng-container *ngIf="text">
-  <ng-container *ngFor="let item of content">
+  <ng-container *ngFor="let item of content; trackBy: trackByFn">
     <ng-container *ngIf="!item['id']; else selectionNode">{{ item }}</ng-container>
     <ng-template #selectionNode>
       <span ngClass="highlighter__selection--{{ item['variant'] }}">{{ item['value'] }}</span>
