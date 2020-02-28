@@ -1179,12 +1179,14 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
     function View_HighlighterFilterComponent_0(_l) {
       return _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵvid"](2, [(_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵand"](16777216, null, null, 1, null, View_HighlighterFilterComponent_1)), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵdid"](1, 278528, null, 0, _angular_common__WEBPACK_IMPORTED_MODULE_2__["NgForOf"], [_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewContainerRef"], _angular_core__WEBPACK_IMPORTED_MODULE_1__["TemplateRef"], _angular_core__WEBPACK_IMPORTED_MODULE_1__["IterableDiffers"]], {
-        ngForOf: [0, "ngForOf"]
+        ngForOf: [0, "ngForOf"],
+        ngForTrackBy: [1, "ngForTrackBy"]
       }, null)], function (_ck, _v) {
         var _co = _v.component;
         var currVal_0 = _co.data;
+        var currVal_1 = _co.trackByFn;
 
-        _ck(_v, 1, 0, currVal_0);
+        _ck(_v, 1, 0, currVal_0, currVal_1);
       }, null);
     }
 
@@ -1250,9 +1252,22 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       return HighlighterFilterComponent;
     });
 
-    var HighlighterFilterComponent = function HighlighterFilterComponent() {
-      _classCallCheck(this, HighlighterFilterComponent);
-    };
+    var HighlighterFilterComponent =
+    /*#__PURE__*/
+    function () {
+      function HighlighterFilterComponent() {
+        _classCallCheck(this, HighlighterFilterComponent);
+      }
+
+      _createClass(HighlighterFilterComponent, [{
+        key: "trackByFn",
+        value: function trackByFn(_, item) {
+          return item.id;
+        }
+      }]);
+
+      return HighlighterFilterComponent;
+    }();
     /***/
 
   },
@@ -1383,12 +1398,14 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
     function View_HighlighterComponent_1(_l) {
       return _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵvid"](0, [(_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵeld"](0, 0, null, null, 2, null, null, null, null, null, null, null)), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵand"](16777216, null, null, 1, null, View_HighlighterComponent_2)), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵdid"](2, 278528, null, 0, _angular_common__WEBPACK_IMPORTED_MODULE_2__["NgForOf"], [_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewContainerRef"], _angular_core__WEBPACK_IMPORTED_MODULE_1__["TemplateRef"], _angular_core__WEBPACK_IMPORTED_MODULE_1__["IterableDiffers"]], {
-        ngForOf: [0, "ngForOf"]
+        ngForOf: [0, "ngForOf"],
+        ngForTrackBy: [1, "ngForTrackBy"]
       }, null), (_l()(), _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵand"](0, null, null, 0))], function (_ck, _v) {
         var _co = _v.component;
         var currVal_0 = _co.content;
+        var currVal_1 = _co.trackByFn;
 
-        _ck(_v, 2, 0, currVal_0);
+        _ck(_v, 2, 0, currVal_0, currVal_1);
       }, null);
     }
 
@@ -1549,6 +1566,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           var collection = this.highlighterService.updateSelections(data, item, !color);
           this.selectionText.emit(collection);
           selection.empty();
+        }
+      }, {
+        key: "trackByFn",
+        value: function trackByFn(_, item) {
+          return item.id;
         }
       }]);
 
